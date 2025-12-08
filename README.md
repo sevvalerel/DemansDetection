@@ -1,5 +1,3 @@
-README 
-
 MRIgentic, beyin MRI görüntülerini analiz ederek erken demans tespiti yapmayı amaçlayan yapay zeka destekli bir web uygulamasıdır. Arka planda TensorFlow ile eğitilmiş bir model, ön tarafta ise HTML, CSS ve JavaScript kullanılarak geliştirilmiş modern ve kullanıcı dostu bir arayüz bulunur.
 
 Uygulama MRI görüntülerini analiz eder ve sonucu iki sınıf altında gösterir:
