@@ -56,24 +56,6 @@ Arayüzü açın:
 index.html dosyasına çift tıklayın.
 Ardından MRI görüntüsü yükleyerek modelin tahminini görebilirsiniz.
 
-MODEL MANTIĞI:
-
-Model çıktıları:
-
-Mild Impairment
-
-Moderate Impairment
-
-No Impairment
-
-Very Mild Impairment
-
-Sonuç dönüştürme:
-
-“No Impairment” → Demans Yok
-
-Diğer sınıflar → Demans Var
-
 KULLANILAN TEKNOLOJİLER:
 
 FastAPI
