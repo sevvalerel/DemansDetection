@@ -8,65 +8,38 @@
 </head>
 
 <body>
-
     <header>
         <img src="assets/mri.gif" class="logo">
         <h1>MRIgentic</h1>
         <p>Derin Öğrenme Destekli Erken Demans Tanı Sistemi</p>
     </header>
-
     <main>
-
-        <!-- Sol Bölüm: Görsel Yükleme -->
         <section class="upload-section">
-            <h2><i class="ri-upload-cloud-line"></i> Adım 1: Görüntü Yükleme</h2>
+            <h2></i> Adım 1: Görüntü Yükleme</h2>
 
             <div id="drop-area" onclick="document.getElementById('fileInput').click();">
                 <input type="file" id="fileInput" hidden>
                 <i class="ri-image-add-line upload-icon"></i>
                 <p>MR Kesiti (Sürükle & Bırak)<br>veya yüklemek için tıklayın</p>
             </div>
-
             <button id="analyzeBtn">
                 <i class="ri-brain-line"></i> Analizi Başlat
             </button>
-
             <img id="preview" class="preview-img" style="display:none;">
         </section>
-
-        <!-- Sağ Bölüm: Yapay Zeka Raporu -->
         <section class="report-section">
-            <h2><i class="ri-robot-line"></i> Adım 2: Yapay Zeka Raporu</h2>
+            <h2> Adım 2: Yapay Zeka Raporu</h2>
             <div>
                 <div id="diagnosisBox" class="diagnosis-box">
-                    <i class="ri-microscope-line" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 10px;"></i>
-                    <p style="color:#94a3b8; font-size: 1.1rem;">Henüz analiz yapılmadı. Sonuç burada görünecek</p>
+                    <i class="ri-microscope-line"></i>
+                    <p class="diag-text">Henüz analiz yapılmadı. Sonuç burada görünecek</p>
             </div>
-
-
-                <!-- <div class="result-box">
-                    <p>Demans Riski (Alzheimer)</p>
-                    <div class="bar">
-                        <div id="demansBar" class="bar-fill" style="width: 0%;">0%</div>
-                    </div>
-                </div> -->
-
-                <!-- <div class="result-box">
-                    <p>Sağlıklı Beyin Dokusu</p>
-                    <div class="bar green">
-                        <div id="healthyBar" class="bar-fill green-fill" style="width: 0%;">0%</div>
-                    </div>
-                </div> -->
-
                 <div class="note">
                     <strong>Yasal Uyarı:</strong> Yasal Uyarı: Bu sonuçlar yapay zeka tahminidir. Kesin tanı yerine geçmez.
                 </div>
-
             </div>
         </section>
-
     </main>
-
     <script src="app.js"></script>
 </body>
 </html>

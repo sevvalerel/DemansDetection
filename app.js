@@ -1,6 +1,3 @@
-// ==========================================
-// 1. SÜRÜKLE & BIRAK (DRAG & DROP)
-// ==========================================
 const drop = document.getElementById("drop-area");
 const fileInput = document.getElementById("fileInput");
 const preview = document.getElementById("preview");
@@ -36,11 +33,6 @@ function showPreview() {
     }
 }
 
-
-
-// ==========================================
-// 2. MODEL ANALİZİ – TERS MANTIKLI 2 SINIF
-// ==========================================
 analyzeBtn.onclick = async function () {
 
     if (!preview.src || preview.style.display === "none") {
@@ -58,7 +50,7 @@ analyzeBtn.onclick = async function () {
 
     try {
         const formData = new FormData();
-        formData.append("file", fileInput.files[0]); // backend ile uyumlu
+        formData.append("file", fileInput.files[0]);
 
         const API_URL = "http://127.0.0.1:8000/predict";
 
@@ -68,38 +60,37 @@ analyzeBtn.onclick = async function () {
         });
 
         if (!response.ok) {
-            throw new Error(`Sunucu Hatası: ${response.status} ${response.statusText}`);
+            let errorMessage = `Sunucu Hatası: ${response.status} ${response.statusText}`;
+         
+            try {
+                const errorData = await response.json();
+                if (errorData.detail) {
+                    errorMessage = errorData.detail;
+                }
+            } catch (jsonError) {
+                console.error("Yanıt JSON olarak okunamadı:", jsonError);
+            }
+            
+            throw new Error(errorMessage);
         }
 
         const data = await response.json();
         const predicted = data.class_name;
-
+        
         let baslik, renk, ikon, mesaj;
-
-        // ===============================
-        //   TERS MANTIKLI İKİ SINIF:
-        //
-        //   NonDemented       → DEMANS VAR
-        //   VeryMild/Mild/Mod → DEMANS YOK
-        // ===============================
 
         if (predicted === "NonDemented") {
             baslik = "⚠️ DEMANS BULGUSU TESPİT EDİLDİ";
-            renk = "#ef4444"; // kırmızı
+            renk = "#ef4444";
             ikon = "ri-alert-fill";
-            mesaj = `
-                Analiz tamamlandı.
-            `;
+            mesaj = `Analiz tamamlandı.`;
         } else {
-            baslik = "🧠 DEMANS BULGUSU YOK";
-            renk = "#10b981"; // yeşil
+            baslik = "🌟 DEMANS BULGUSU YOK";
+            renk = "#10b981";
             ikon = "ri-checkbox-circle-line";
-            mesaj = `
-                Analiz tamamlandı.
-            `;
+            mesaj = `Analiz tamamlandı.`;
         }
 
-        // Sonucu Ekrana Yazdır
         box.innerHTML = `
             <i class="${ikon}" style="font-size: 4rem; color: ${renk}; margin-bottom: 15px;"></i>
             <h3 style="color: ${renk}; margin:0; font-size: 1.6rem;">${baslik}</h3>
@@ -108,11 +99,17 @@ analyzeBtn.onclick = async function () {
 
     } catch (error) {
         console.error("Hata:", error);
+        
+        const isNetworkError = error.message.includes("Failed to fetch") || error.message.includes("NetworkError");
+        
+        let baslik = isNetworkError ? "🔌 Bağlantı Hatası" : "Analiz Hatası";
+        let ikon = isNetworkError ? "ri-wifi-off-line" : "ri-error-warning-line";
+        let anaMesaj = isNetworkError ? "Backend'e ulaşılamadı. Sunucunuzu kontrol edin." : error.message;
+
         box.innerHTML = `
-            <i class="ri-wifi-off-line" style="font-size: 3rem; color: #94a3b8;"></i>
-            <h3 style="color: #64748b; margin: 10px 0;">Bağlantı Hatası</h3>
-            <p style="color: #94a3b8;">Backend çalışmıyor veya erişilemedi.</p>
-            <small style="color: #ef4444;">${error.message}</small>
+            <i class="${ikon}" style="font-size: 3rem; color: #ef4444;"></i>
+            <h3 style="color: #ef4444; margin: 10px 0;">${baslik}</h3>
+            <p style="color: #94a3b8;">${anaMesaj}</p>
         `;
     } finally {
         analyzeBtn.disabled = false;

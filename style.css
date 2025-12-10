@@ -1,13 +1,17 @@
-body {
-    margin: 0;
-    background: #f4f8fb;
-    font-family: "Segoe UI", sans-serif;
-    color: #333;
+header {
+    background-color: white;
+    font-family: 'Montserrat', sans-serif;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
 }
 
-header {
-    text-align: center;
-    padding: 25px 0;
+body {
+    margin: 0;
+    background: #c1d3e2;
+    font-family: 'Inter', sans-serif;
+    color: #333;
 }
 
 header .logo {
@@ -17,13 +21,14 @@ header .logo {
 
 header h1 {
     margin: 10px 0 5px;
-    font-size: 32px;
-    color: #1a8ed1;
+    font-size: 40px;
+    color: #1D3557;
 }
 
 header p {
     font-size: 15px;
-    color: #666;
+    margin: 5px 0 0; 
+    color: #64748b;
 }
 
 main {
@@ -44,7 +49,7 @@ main {
 .upload-section h2, .report-section h2 {
     margin-bottom: 15px;
     font-size: 20px;
-    color: #0d6ea8;
+    color: #1D3557;
 }
 
 #drop-area {
@@ -63,14 +68,14 @@ main {
 
 .upload-icon {
     font-size: 55px;
-    color: #1a8ed1;
+    color: #1D3557;
 }
 
 #analyzeBtn {
     margin-top: 20px;
     width: 100%;
     padding: 12px;
-    background: #1a8ed1;
+    background: #1D3557;
     border: none;
     color: white;
     border-radius: 10px;
@@ -80,17 +85,15 @@ main {
 }
 
 #analyzeBtn:hover {
-    background: #0e6ba4;
+    background: #1D3557;
 }
 
 .preview-img {
     width: 100%;
     border-radius: 12px;
     margin-top: 20px;
-    box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
-
-/* --- Sağ Panel --- */
 
 .tabs {
     display: flex;
@@ -109,7 +112,7 @@ main {
 }
 
 .tab-btn.active {
-    background: #1a8ed1;
+    background: #1D3557;
     color: white;
 }
 
@@ -139,7 +142,7 @@ main {
 
 .bar-fill {
     height: 100%;
-    background: #dc3b3b;
+    background: #DC3B3B;
     color: white;
     text-align: right;
     padding-right: 8px;
@@ -148,7 +151,7 @@ main {
 }
 
 .green-fill {
-    background: #2fb15a;
+    background: #2FB15A;
 }
 
 .note {
@@ -167,19 +170,10 @@ main {
 .diagnosis-box {
     padding: 14px;
     background: #eef5ff;
-    border-left: 5px solid #4a90e2;
+    border-left: 5px solid #1D3557;
     border-radius: 10px;
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 20px;
     text-align: center;
 }
-header {
-    background-color: white;
-    padding: 1rem;
-    text-align: center;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    margin-bottom: 2rem;
-}
-header h1 { margin: 0; color: var(--primary); }
-header p { margin: 5px 0 0; color: #64748b; }

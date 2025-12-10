@@ -1,16 +1,18 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from tensorflow.keras.models import load_model
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import numpy as np
 import uvicorn
+import io 
 
-# Modeli yükle
-model = load_model("alzheimer_detection_model.h5")
+try:
+    model = load_model("alzheimer_detection_model.h5")
+except Exception as e:
+    print(f"HATA: Model yüklenemedi. Model dosyasını kontrol edin. Hata: {e}")
 
 app = FastAPI()
 
-# Frontend'e izin ver
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,27 +23,45 @@ app.add_middleware(
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    # Görüntüyü oku ve modeli beklediği formatta RGB'ye çevir
-    img = Image.open(file.file).convert("RGB").resize((224, 224))
     
-    # NumPy array'e çevir
-    img = np.array(img) / 255.0
+    if not file.content_type.startswith("image/"):
+        accepted_formats = "JPEG, JPG ve PNG"
+        raise HTTPException(
+            status_code=400,
+            detail=f"Desteklenmeyen dosya türü. Lütfen bir MR görüntüsü ({accepted_formats}) yükleyin."
+        )
     
-    # Model 4 boyut ister -> (1, 224, 224, 3)
-    img = np.expand_dims(img, axis=0)
+    contents = await file.read()
+    
+    try:
+        img = Image.open(io.BytesIO(contents))
+        
+        img = img.convert("RGB").resize((224, 224))
+        img = np.array(img) / 255.0
+        img = np.expand_dims(img, axis=0)
 
-    # Tahmin yap
-    pred = model.predict(img)
-    class_id = np.argmax(pred)
+        pred = model.predict(img)
+        class_id = np.argmax(pred)
 
-    # Sınıf etiketleri
-    classes = ["NonDemented", "VeryMildDemented", "MildDemented", "ModerateDemented"]
+        classes = ["NonDemented", "VeryMildDemented", "MildDemented", "ModerateDemented"]
 
-    return {
-        "raw_prediction": pred.tolist(),
-        "class_id": int(class_id),
-        "class_name": classes[class_id]
-    }
+        return {
+            "raw_prediction": pred.tolist(),
+            "class_id": int(class_id),
+            "class_name": classes[class_id]
+        }
+        
+    except UnidentifiedImageError:
+        raise HTTPException(
+            status_code=400,
+            detail="Yüklenen dosya tanınabilir bir görüntü formatında değil veya bozuk (JPEG, JPG veya PNG bekliyoruz)."
+        )
+    except Exception as e:
+        print(f"Görüntü işleme/tahmin hatası: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Sunucu tarafında görüntü işlenirken beklenmeyen bir hata oluştu."
+        )
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
