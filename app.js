@@ -52,7 +52,7 @@ analyzeBtn.onclick = async function () {
         const formData = new FormData();
         formData.append("file", fileInput.files[0]);
 
-        const API_URL = "http://127.0.0.1:8000/predict";
+        const API_URL = "http://114.119.181.214:8000/predict";
 
         const response = await fetch(API_URL, {
             method: "POST",
